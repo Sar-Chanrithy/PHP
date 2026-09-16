@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="formSubmit">
+        <input type="text" id="title" placeholder="title"><br>
+        <input type="number" id="price" placeholder="price"><br>
+        <input type="number" id="qty" placeholder="qty"><br>
+        <input type="file" id="image"><br>
+        <img id="preview" width="100px"><br>
+        <textarea id="description"></textarea><br>
+        <button type="submit">submit</button>
+        <button type="reset">cancel</button>
+    </form>
+
+    <hr>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>price</th>
+                <th>qty</th>
+                <th>image</th>
+                <th>description</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#image').on('change', function () {
+                // let file = this.files[0];
+                // $('#preview').attr('src', URL.createObjectURL(file));
+                $('#preview').attr('src', URL.createObjectURL(this.files[0])).show();
+            })
+
+            function clearForm() {
+                $('#formSubmit')[0].reset();
+                $('#preview').attr('src', '').hide();
+            }
+
+            $('#formSubmit').on('submit', function (e) {
+                e.preventDefault();
+                let title = $('#title').val();
+                let price = $('#price').val();
+                let qty = $('#qty').val();
+                let image = $('#image')[0].files[0];
+                let description = $('#description').val();
+                let imageURL = null;
+
+                if (image) {
+                    imageURL = URL.createObjectURL(image);
+                }
+
+                let product = {
+                    id: 101,
+                    title: title,
+                    price: price,
+                    qty: qty,
+                    image: imageURL,
+                    description: description
+                }
+
+                $('#tableBody').html(
+                    `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.title}</td>
+                        <td>${product.price}</td>
+                        <td>${product.qty}</td>
+                        <td>
+                            <img src='${product.image}' alt='${product.title}' width='100px'>
+                        </td>
+                        <td>${product.description}</td>
+                        <td>
+                            <button>view</button>
+                            <button>edit</button>
+                            <button>delete</button>
+                        </td>
+                    </tr>`
+                )
+
+                clearForm();
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form id="formSubmit">
+        <input type="text" id="title" placeholder="title"><br>
+        <textarea id="command"></textarea><br>
+        <input type="file" id="image"><br>
+        <img id="preview" width="100px"> <br>
+        <button type="submit">submit</button>
+    </form>
+
+    <div class="demo">
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $('#image').on('change', function () {
+                // let file = this.files[0];
+                // $('#preview').attr('src', URL.createObjectURL(file));
+                $('#preview').attr('src', URL.createObjectURL(this.files[0])).show();
+            })
+        function clearForm() {
+                $('#formSubmit')[0].reset();
+                $('#preview').attr('src', '').hide();
+        }
+        $('#formSubmit').on('submit', function(e){
+            e.preventDefault();
+            let formdata = new FormData();
+
+            formdata.append('title_post', $('#title').val());
+            formdata.append('command_post', $('#command').val());
+
+            let fileInput = $('#image')[0];
+            if(fileInput.files.length > 0){
+                formdata.append('image_post', URL.createObjectURL($('#image')[0].files[0]));
+            }else{
+                formdata.append('image_post', null);
+            }
+
+            // console.log(formdata.get('title_post'));
+
+            $('.demo').html(`
+                <ul>
+                    <li>${formdata.get('title_post')}</li>
+                    <li>${formdata.get('command_post')}</li>
+                    <li>
+                        <img src="${formdata.get('image_post')}" alt="${formdata.get('title_post')}" width='100px'>
+                    </li>
+                </ul>
+            `)
+        });
+        clearForm();
+    </script>
+</body>
+</html>

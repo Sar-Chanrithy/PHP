@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <style>
+        .box{
+        width: 200px;
+        height: 200px;
+        background-color: blue;
+    }
+    </style>
+<body>
+    <div class="box"></div>
+    <button id="open" >open</button>
+    <button id="close" >close </button>
+    <button id="fadeOut" >FadeToggle </button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        $('#open').on('click', function(){
+            $('.box').show();
+        })
+        $('#close').on('click', function(){
+            $('.box').hide();
+        })
+
+        $('#fadeOut').on('click', function(){
+            $('.box').fadeToggle();
+        })
+
+        $('.box').hover(
+            function () {
+                $(this).css({
+                    background: 'red',
+                    width: '500px',
+                    height: '500px',
+                    transition: 'all 500ms'
+                });
+                // $(this).css('background', 'red');
+            },
+        )
+
+
+    })
+    </script>
+</body>
+</html>

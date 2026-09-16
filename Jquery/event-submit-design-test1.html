@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background: #f5f5f5;
+            padding: 30px;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        form input[type="file"] {
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        #preview {
+            display: none;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form textarea {
+            width: 100%;
+            height: 80px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 8px 18px;
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        button[type="submit"]:hover {
+            background: #357abd;
+        }
+
+        button[type="reset"] {
+            padding: 8px 18px;
+            background: #e0e0e0;
+            color: #444;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="reset"]:hover {
+            background: #c8c8c8;
+        }
+
+        hr {
+            margin: 10px 0 20px;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        th {
+            background: #4a90e2;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid #3a80d2;
+        }
+
+        td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        td button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 4px;
+        }
+
+        td button:nth-child(1) { background: #d0eaff; color: #1a6db5; }
+        td button:nth-child(2) { background: #fff3cd; color: #856404; }
+        td button:nth-child(3) { background: #ffe0e0; color: #c0392b; }
+    </style>
+</head>
+
+<body>
+    <form id="formSubmit">
+        <input type="text" id="title" placeholder="title"><br>
+        <input type="number" id="price" placeholder="price"><br>
+        <input type="number" id="qty" placeholder="qty"><br>
+        <input type="file" id="image"><br>
+        <img id="preview" width="100px"><br>
+        <textarea id="description"></textarea><br>
+        <button type="submit">submit</button>
+        <button type="reset">cancel</button>
+    </form>
+
+    <hr>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>price</th>
+                <th>qty</th>
+                <th>image</th>
+                <th>description</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#image').on('change', function () {
+                // let file = this.files[0];
+                // $('#preview').attr('src', URL.createObjectURL(file));
+                $('#preview').attr('src', URL.createObjectURL(this.files[0])).show();
+            })
+
+            function clearForm() {
+                $('#formSubmit')[0].reset();
+                $('#preview').attr('src', '').hide();
+            }
+
+            $('#formSubmit').on('submit', function (e) {
+                e.preventDefault();
+                let title = $('#title').val();
+                let price = $('#price').val();
+                let qty = $('#qty').val();
+                let image = $('#image')[0].files[0];
+                let description = $('#description').val();
+                let imageURL = null;
+
+                if (image) {
+                    imageURL = URL.createObjectURL(image);
+                }
+
+                let product = {
+                    id: 101,
+                    title: title,
+                    price: price,
+                    qty: qty,
+                    image: imageURL,
+                    description: description
+                }
+
+                $('#tableBody').html(
+                    `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.title}</td>
+                        <td>${product.price}</td>
+                        <td>${product.qty}</td>
+                        <td>
+                            <img src='${product.image}' alt='${product.title}' width='100px'>
+                        </td>
+                        <td>${product.description}</td>
+                        <td>
+                            <button>view</button>
+                            <button>edit</button>
+                            <button>delete</button>
+                        </td>
+                    </tr>`
+                )
+
+                clearForm();
+            })
+        })
+    </script>
+</body>
+
+</html>

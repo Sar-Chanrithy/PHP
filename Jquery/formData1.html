@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="formSubmit">
+        <input type="text" name="title" id="title" placeholder="title"><br>
+        <textarea name="command" id="command"></textarea><br>
+        <input type="file" name="image" id="image"><br>
+        <img width="100px"> <br>
+        <button type="submit">submit</button>
+    </form>
+
+    <div class="demo">
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $('#formSubmit').on('submit', function(e){
+            e.preventDefault();
+            let formdata = new FormData(this);
+
+            let file = formdata.get('image');
+
+            let imageURL = URL.createObjectURL(file);
+
+            $('.demo').append(`
+                <ul>
+                    <li>${formdata.get('title')}</li>
+                    <li>${formdata.get('command')}</li>
+                    <li>
+                        <img src="${imageURL}" alt="${formdata.get('title')}" width='100px'>
+                    </li>
+                </ul>
+            `);
+        });
+    </script>
+</body>
+</body>
+</html>

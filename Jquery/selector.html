@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+    <p id="para" ></p>
+    <div class="box" ></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            // let p = document.getElementById('para');
+            // p.innerHTML = "Hello <hr> World ";
+            $('h1').html("hello <hr> Jquery"); //select tage
+            $('#para').text("Hello");
+            $('.box').css({
+                width : '100px',
+                heigh : '100px',
+                background: 'red'
+            })
+
+        })
+    </script>
+
+
+
+</body>
+</html>

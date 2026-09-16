@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <!-- Google Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2.5rem 1.5rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Two-Column Responsive Layout */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 960px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Container */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: #ffffff;
+        }
+
+        .card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.15rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.35rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--text-main);
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Styled Upload Box */
+        .file-upload-box {
+            position: relative;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .file-upload-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .upload-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .upload-text span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Image Preview */
+        .preview-wrapper {
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+
+        #preview {
+            display: none;
+            max-width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin: 0 auto;
+        }
+
+        /* Form Buttons */
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.4rem;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.88rem;
+            border-radius: 8px;
+            padding: 0.7rem 1.2rem;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .btn-cancel:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #f8fafc;
+            padding: 0.85rem 1.2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background-color: #fcfcfd;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Table Elements */
+        .table-thumb {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #f1f5f9;
+            display: block;
+        }
+
+        .badge-id {
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .badge-qty {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .price-text {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .desc-text {
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-muted);
+        }
+
+        /* Action Buttons */
+        .action-group {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .btn-action {
+            padding: 0.35rem 0.65rem;
+            font-size: 0.78rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .btn-view { background: #eff6ff; color: #2563eb; }
+        .btn-view:hover { background: #dbeafe; }
+
+        .btn-edit { background: #fef3c7; color: #d97706; }
+        .btn-edit:hover { background: #fde68a; }
+
+        .btn-delete { background: #fee2e2; color: #dc2626; }
+        .btn-delete:hover { background: #fecaca; }
+
+        /* Empty State */
+        .empty-row td {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Product Management</h1>
+            <p>Add new products and manage inventory effortlessly</p>
+        </header>
+
+        <div class="layout-grid">
+            <!-- Left Column: Add Product Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Add New Product</h2>
+                </div>
+                <div class="card-body">
+                    <form id="formSubmit">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" placeholder="e.g. Wireless Headphones" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="price">Price ($)</label>
+                                <input type="number" id="price" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="qty">Quantity</label>
+                                <input type="number" id="qty" placeholder="0" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <div class="file-upload-box">
+                                <input type="file" id="image" accept="image/*">
+                                <div class="upload-text">
+                                    <span>Click to upload</span> or drag and drop
+                                </div>
+                            </div>
+                            <div class="preview-wrapper">
+                                <img id="preview" alt="Preview">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Short description of the product..."></textarea>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="submit" class="btn-submit">Save Product</button>
+                            <button type="reset" class="btn-cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Product Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Product Inventory</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Image</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr class="empty-row">
+                                <td colspan="7">No products added yet. Fill out the form on the left to add one.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let nextId = 101; // Auto-incrementing product ID
+
+            // Image Preview on file select
+            $('#image').on('change', function () {
+                if (this.files && this.files[0]) {
+                    $('#preview').attr('src', URL.createObjectURL(this.files[0])).fadeIn(200);
+                }
+            });
+
+            // Reset form and image preview
+            function clearForm() {
+                $('#formSubmit')[0].reset();
+                $('#preview').attr('src', '').hide();
+            }
+
+            // Cancel button click
+            $('#formSubmit button[type="reset"]').on('click', function () {
+                clearForm();
+            });
+
+            // Form Submit Handler
+            $('#formSubmit').on('submit', function (e) {
+                e.preventDefault();
+
+                let title = $('#title').val();
+                let price = parseFloat($('#price').val()).toFixed(2);
+                let qty = $('#qty').val();
+                let image = $('#image')[0].files[0];
+                let description = $('#description').val() || 'No description';
+
+                // Placeholder image if none is uploaded
+                let imageURL = image 
+                    ? URL.createObjectURL(image) 
+                    : 'https://placehold.co/100x100?text=No+Image';
+
+                let product = {
+                    id: nextId++,
+                    title: title,
+                    price: price,
+                    qty: qty,
+                    image: imageURL,
+                    description: description
+                };
+
+                // Remove empty state placeholder row if present
+                $('.empty-row').remove();
+
+                // Append new product row
+                $('#tableBody').prepend(
+                    `<tr>
+                        <td><span class="badge-id">#${product.id}</span></td>
+                        <td><strong>${product.title}</strong></td>
+                        <td><span class="price-text">$${product.price}</span></td>
+                        <td><span class="badge-qty">${product.qty}</span></td>
+                        <td>
+                            <img src="${product.image}" alt="${product.title}" class="table-thumb">
+                        </td>
+                        <td><div class="desc-text" title="${product.description}">${product.description}</div></td>
+                        <td>
+                            <div class="action-group">
+                                <button type="button" class="btn-action btn-view">View</button>
+                                <button type="button" class="btn-action btn-edit">Edit</button>
+                                <button type="button" class="btn-action btn-delete">Delete</button>
+                            </div>
+                        </td>
+                    </tr>`
+                );
+
+                clearForm();
+            });
+
+            // Delete action
+            $(document).on('click', '.btn-delete', function () {
+                $(this).closest('tr').fadeOut(250, function () {
+                    $(this).remove();
+                    if ($('#tableBody tr').length === 0) {
+                        $('#tableBody').html(
+                            `<tr class="empty-row">
+                                <td colspan="7">No products added yet. Fill out the form on the left to add one.</td>
+                            </tr>`
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
