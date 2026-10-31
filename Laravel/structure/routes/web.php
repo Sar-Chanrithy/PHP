@@ -115,3 +115,32 @@ Route::get('/product', function () {
 
     return view('product', compact('products'));
 });
+
+
+// route name + view
+Route::get('user/', function(){
+    return view('users.index');
+})->name('user.index');
+
+Route::get('user/create/', function(){
+    return view('users.create');
+})->name('user.create');
+
+Route::get('user/edit', function(){
+    return view('users.edit');
+})->name('user.edit');
+
+// group route (prefix , name) + view
+Route::prefix('user')->name('user.')->group(function(){
+    Route::get('/', function(){
+        return view('users.index');
+    })->name('index');
+
+    Route::get('/create', function(){
+        return view('users.create');
+    })->name('create');
+
+    Route::get('/edit', function(){
+        return view('users.edit');
+    })->name('edit');
+});
