@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -76,7 +78,7 @@ Route::get('/product', function () {
         'title' => 'ASUS ROG Strix G16',
         'price' => 1499,
         'qty' => 10,
-        'image' => 'https://dlcdnwebimgs.asus.com/gain/9DA14D4F-44D9-4DE4-8F24-969854945C88',
+        'image' => 'https://cdn.handheld.guru/2026/10/asus-rog-strix-g16-laptop-drops-600-now-under-1400-with-ryzen-9-9955hx-and-rtx-5060-4c601479-1025x720.webp',
         'description' => 'Powerful gaming laptop with Intel Core i7, NVIDIA RTX 4060, 16GB RAM, 1TB SSD, and 16-inch 165Hz display.'
     ],
     [
@@ -117,30 +119,50 @@ Route::get('/product', function () {
 });
 
 
-// route name + view
-Route::get('user/', function(){
-    return view('users.index');
-})->name('user.index');
+// // route name + view
+// Route::get('user/', function(){
+//     return view('users.index');
+// })->name('user.index');
 
-Route::get('user/create/', function(){
-    return view('users.create');
-})->name('user.create');
+// Route::get('user/create/', function(){
+//     return view('users.create');
+// })->name('user.create');
 
-Route::get('user/edit', function(){
-    return view('users.edit');
-})->name('user.edit');
+// Route::get('user/edit', function(){
+//     return view('users.edit');
+// })->name('user.edit');
 
-// group route (prefix , name) + view
-Route::prefix('user')->name('user.')->group(function(){
-    Route::get('/', function(){
-        return view('users.index');
-    })->name('index');
+// // group route (prefix , name) + view
+// Route::prefix('user')->name('user.')->group(function(){
+//     Route::get('/', function(){
+//         return view('users.index');
+//     })->name('index');
 
-    Route::get('/create', function(){
-        return view('users.create');
-    })->name('create');
+//     Route::get('/create', function(){
+//         return view('users.create');
+//     })->name('create');
 
-    Route::get('/edit', function(){
-        return view('users.edit');
-    })->name('edit');
-});
+//     Route::get('/edit', function(){
+//         return view('users.edit');
+//     })->name('edit');
+// });
+
+// ===================================
+//      Route + Controller
+// ===================================
+// single route + controller
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+// Route::get('/product', [HomeController::class, 'product'])->name('product');
+
+// // group route + controller
+// Route::controller(HomeController::class)->group(function(){
+//     Route::get('/', 'index')->name('home');
+//     Route::get('/contact', 'contact')->name('contact');
+//     Route::get('/product', 'product')->name('product');
+// });
+
+
+
+// route + controller  + model + view 
+Route::get('/', [ProductController::class, 'index']);
