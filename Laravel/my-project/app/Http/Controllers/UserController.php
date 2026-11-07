@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -10,18 +11,19 @@ class UserController extends Controller
         return view('formSubmit');
     }
     public function store(Request $request){
-        // $name = $request->input('name');
-        // email = $request->input('email');
-        // password = $request->input('password');
-        $name = $request->name;
-        $email = $request->email;
-        $password = $request->password;
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
 
-        $user = [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password
-        ];
+        // រក្សាទុកទិន្នន័យចូល Database (PostgreSQL)
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+        ]);
+
         return view('formDisplay', compact('user'));
     }
 
