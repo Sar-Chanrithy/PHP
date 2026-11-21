@@ -34,4 +34,35 @@ class ProductController extends Controller
 
         return view("ORM.show", compact("product"));
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id = 4)
+    {
+        $product = Product::findOrFail($id);
+
+        $data = [
+            "name" => "Update Product",
+            "price" => 2000,
+            "qty" => 20,
+            "description" => "update product ....",
+        ];
+
+        $product->update($data);
+
+        return "Product Updated Successfully";
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id = 4)
+    {
+        $product = Product::findOrFail($id);
+
+        $product->delete();
+
+        return "Product Deleted Successfully";
+    }
 }
