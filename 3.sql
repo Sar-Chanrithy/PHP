@@ -17,7 +17,7 @@ insert into orders (user_id,amount) value (1,30),
 
 -- --INNER JOIN
 select users.id as user_id,
-    users.nam,
+    users.name,
     users.age,
     orders.order_id,
     orders.amount
