@@ -2,7 +2,7 @@
     <table border="1" >
         <thead>
             <tr>
-                th>ID</th>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Qty</th>

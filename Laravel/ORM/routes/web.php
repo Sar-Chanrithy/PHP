@@ -9,4 +9,6 @@ Route::get('/', function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('/read', 'index')->name('read');
+    Route::get('/store', 'store');
+    Route::get('/show/{id?}', 'show');
 });
